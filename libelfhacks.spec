@@ -34,6 +34,8 @@ mv $RPM_BUILD_ROOT/include $RPM_BUILD_ROOT%{_includedir}
 
 %ifarch x86_64
 mv $RPM_BUILD_ROOT/lib $RPM_BUILD_ROOT/usr/lib64
+%else
+mv $RPM_BUILD_ROOT/lib $RPM_BUILD_ROOT/usr/lib
 %endif 
 
 
