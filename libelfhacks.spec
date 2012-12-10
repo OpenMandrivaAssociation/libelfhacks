@@ -1,19 +1,20 @@
-#
-%define name    libelfhacks 
-
+%define develname %mklibname -d elfhacks
+%define name            libelfhacks 
+%define release		1
+%define version         0.4.1
 Name:			%{name}
-Version:		0.4.1
-%define rel		1
-Release:		%mkrel %rel
+Version:		%{version}
+Release:		%{release}
 Summary:		elfhacks application interface
-License:		MIT-Style
+License:		MIT
 Group:			System/Libraries
 URL:			https://github.com/ienorand/elfhacks
-BuildRoot:      	%_tmppath/%{name}-%{version}-%{release}-buildroot
-Source0:		libelfhacks-0.4.1.tar.bz2
+Source0:		https://nodeload.github.com/ienorand/elfhacks/zipball/libelfhacks-0.4.1.tar.bz2
 ExclusiveArch:		i586 x86_64
 BuildRequires:		cmake
-BuildRequires:		gcc gcc-c++ make
+BuildRequires:		gcc 
+BuildRequires:		gcc-c++ 
+BuildRequires:		make
 
 
 %description	
@@ -27,22 +28,38 @@ cmake -D CMAKE_INSTALL_PREFIX=$RPM_BUILD_ROOT .
 %make
 
 %install 
-rm -rf $RPM_BUILD_ROOT
 %makeinstall
 mkdir $RPM_BUILD_ROOT/usr
-mv $RPM_BUILD_ROOT/include $RPM_BUILD_ROOT/usr/include
-%ifarch i586
-mv $RPM_BUILD_ROOT/lib $RPM_BUILD_ROOT/usr/lib
-%endif
+mv $RPM_BUILD_ROOT/include $RPM_BUILD_ROOT%{_includedir}
+
 %ifarch x86_64
 mv $RPM_BUILD_ROOT/lib $RPM_BUILD_ROOT/usr/lib64
+%else
+mv $RPM_BUILD_ROOT/lib $RPM_BUILD_ROOT/usr/lib
 %endif 
 
-%clean
-rm -rf $RPM_BUILD_ROOT
+
+%package -n %{name}
+Summary: Shared library for %{name}
+Group: System/Libraries
+
+%description -n %{name}
+Shared library for %{name}
 
 %files -n %{name}
 %defattr(0755,root,root)
 %{_libdir}/libelfhacks*
+#------------------
+
+%package -n %{develname}
+Summary: Development files for %{name}
+Provides: %{name}-devel = %{version}-%{release}
+Requires: %{name} = %{version}-%{release}
+
+%description -n %{develname}
+The %{name}-devel package contains libraries and header files for
+developing applications that use %{name}.
+
+%files -n %{develname}
 %{_includedir}/*
 
