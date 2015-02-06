@@ -5,7 +5,7 @@
 Summary:	elfhacks application interface
 Name:		libelfhacks
 Version:	0.4.1
-Release:	2
+Release:	3
 License:	MIT
 Group:		System/Libraries
 Url:		https://github.com/ienorand/elfhacks
